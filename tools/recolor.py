@@ -85,3 +85,18 @@ TIMMY = {
 def timmy(d):
     d = paint_cap(d, MAX_HELMET, MAX_SHIRT[:2], MAX_FACE)
     return remap_palette(d, TIMMY)
+
+
+# the small full-body Maxwell beside SINGLE PLAYER uses its own palette
+MENU_ICON = 26808
+MENU_ICON_MAP = {
+    'b41800': '8b5a29', '7b1000': '5a3010',               # helmet -> brown hair
+    'f6e68b': 'ffd8b0', 'b4946a': 'e0a478',               # skin
+    '5a94ac': 'ee62a8', '415a7b': 'a0286a',               # shirt -> pink
+    '628b00': '3962cd',                                   # shorts -> blue jeans
+}
+
+
+def timmy_menu_icon(d):
+    d = paint_cap(d, ['b41800', '7b1000'], ['5a94ac', '415a7b'], ['f6e68b'])
+    return remap_palette(d, MENU_ICON_MAP)

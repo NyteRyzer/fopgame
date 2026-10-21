@@ -56,3 +56,48 @@ def rewrite_section(sec, fn):
         last = pos + 2 + len(s)
     out += sec[last:]
     return bytes(out)
+
+
+def wrap(text, width=32):
+    """Greedy word wrap counting only visible (non-tag) characters."""
+    lines, cur = [], ''
+    vis = lambda s: len(''.join(ch for ch in s if not ch.islower()))
+    for w in text.split():
+        cand = (cur + ' ' + w) if cur else w
+        if vis(cand) <= width:
+            cur = cand
+        else:
+            lines.append(cur); cur = w
+    if cur:
+        lines.append(cur)
+    return lines
+
+
+def message_lines(sec):
+    """(title or None, [(pos, line_bytes)]) for a message section, or None if it has no lines."""
+    items = list(strings(sec))
+    if items and sec[items[0][0]] == 0x0e:
+        return (items[0][1], items[1:]) if len(items) > 1 else None
+    return (None, items) if items else None
+
+
+def replace_message(sec, new_text, max_lines=5):
+    """Replace the body lines of a titled message, updating its line-count byte.
+
+    Returns the new section, or None if the layout isn't the expected one."""
+    parsed = message_lines(sec)
+    if not parsed:
+        return None
+    _, lines = parsed
+    first, last = lines[0][0], lines[-1][0]
+    if sec[first - 1] != len(lines) or any(b - a != 2 + len(s) for (a, s), (b, _) in zip(lines, lines[1:])):
+        return None
+    new = wrap(new_text)
+    if len(new) > max_lines:
+        raise ValueError('too long (%d lines): %s' % (len(new), new_text))
+    body = bytearray([len(new)])
+    for k, l in enumerate(new):
+        s = b'ci' + l.encode('latin1') + b'ic'
+        body += bytes([0x0c if k == len(new) - 1 else 0x0f, len(s)]) + s
+    end = last + 2 + len(lines[-1][1])
+    return sec[:first - 1] + bytes(body) + sec[end:]

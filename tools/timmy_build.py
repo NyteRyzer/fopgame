@@ -33,3 +33,20 @@ def encode(px):
         for x in range(0, 64, 2):
             out.append(row[x] | row[x + 1] << 4)
     return bytes(out)
+
+
+def head_icon(size=32):
+    """Timmy's head (from the puppet art) centred on a size x size sprite, for menu icons."""
+    w, h = 28, 25
+    px = [[0] * size for _ in range(size)]
+    ox, oy = (size - w) // 2, (size - h) // 2
+    for r, line in enumerate(rows(A.HEAD, w, h, 'head')):
+        for c, ch in enumerate(line):
+            if ch != '.':
+                px[oy + r][ox + c] = int(ch, 16)
+    pal = [img.bgr(*HEX(c)) for c in A.PALETTE]
+    out = bytearray([16]) + struct.pack('<16H', *pal) + bytes([size, size])
+    for row in px:
+        for x in range(0, size, 2):
+            out.append(row[x] | row[x + 1] << 4)
+    return bytes(out)

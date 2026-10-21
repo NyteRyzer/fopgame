@@ -17,7 +17,7 @@ def bgr5(h):
 MAP = {bgr5(a): bgr5(b) for a, b in {
     'f8a820': 'e8489c', 'e09018': 'c03080', 'f8c040': 'f070b8',    # orange buttons / frames
     'f8f860': 'e8d0f8', 'f8e848': 'd8b8f0', 'f0f058': 'e0c4f4',    # yellow panels
-    'f8f068': 'ecd4fa', 'f8f8a8': 'f4e8fc', 'f0d040': 'c8a0e8',
+    'f8f068': 'ecd4fa', 'f8f8a8': 'f4e8fc', 'f0d040': 'c8a0e8', 'f8f850': 'e8d0f8',
     'd8f020': '80d850', 'a8d820': '58b838', 'd0f840': '90e060',    # lime accents
 }.items()}
 
@@ -31,8 +31,14 @@ def _swap(colours):
     return [MAP.get(c & 0x7fff, c & 0x7fff) | (c & 0x8000) for c in colours]
 
 
+MENU_BUTTONS = range(5636, 5670)        # back arrow, toolbar buttons
+LEVEL_BACKGROUNDS = range(8340, 8369)   # scenery: deserts, walls... keep their colours
+
+
 def is_ui_image(i, w, h):
-    return i < 1000 or i >= 28500 or w >= 96
+    if i in LEVEL_BACKGROUNDS:
+        return False
+    return i < 1000 or i >= 28500 or w >= 96 or i in MENU_BUTTONS
 
 
 UI_IMAGES = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'ui_images.txt')

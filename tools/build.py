@@ -5,6 +5,7 @@ from pak import Pak
 from dictparse import parse, build, rest_of
 import fop_words
 import fop_text
+import fop_story
 import script_text
 import recolor
 import timmy_build
@@ -18,6 +19,7 @@ import tempfile
 
 MAXWELL_PART_SHEETS = (8914, 8915, 8916)   # the in-game puppet parts
 MAXWELL_ART = (8913, 32091, 32092, 32093)  # menu icon and control-scheme pictures
+MAXWELL_HEAD_ICON = 242                    # 32x32 head next to SINGLE PLAYER
 
 
 def string_table(d):
@@ -32,8 +34,20 @@ def string_table(d):
     return lines
 
 
+def story_for(secs, k):
+    """The story objective for English message k//4, if it opens a level stage (HINT, every 3rd)."""
+    m = k // 4
+    parsed = script_text.message_lines(secs[k])
+    if not parsed:
+        return None
+    key = ' '.join(l[2:-2].decode('latin1') for _, l in parsed[1])
+    if parsed[0] == b'cHINTc':
+        return fop_story.STORY.get(key) if m % 3 == 0 else None
+    return fop_story.LINES.get(key)
+
+
 def patch_text(p):
-    scripts = tables = changed_lines = 0
+    scripts = tables = changed_lines = stories = 0
     for i in range(len(p.raw)):
         if i in (fop_words.DICT_EN, fop_words.OBJ_NAME_TABLE):
             continue
@@ -41,6 +55,12 @@ def patch_text(p):
         new = None
         if script_text.is_script(d):
             secs = script_text.sections(d)
+            for k in range(0, len(secs), 4):          # English sections
+                story = story_for(secs, k)
+                if story:
+                    new_sec = script_text.replace_message(secs[k], story)
+                    if new_sec is not None:
+                        secs[k] = new_sec; stories += 1
             secs = [script_text.rewrite_section(s, lambda t, en=(k % 4 == 0): fop_text.rewrite(t, en))
                     for k, s in enumerate(secs)]
             new = script_text.join(secs)
@@ -54,7 +74,7 @@ def patch_text(p):
                 tables += new != d
         if new is not None and new != d:
             p.set(i, new)
-    print('text: %d scripts, %d string tables rewritten' % (scripts, tables))
+    print('text: %d scripts, %d string tables rewritten, %d story missions' % (scripts, tables, stories))
 
 
 def patch_dictionary(p):
@@ -89,6 +109,8 @@ def patch_sprites(p):
         p.set(i, timmy)
     for i in MAXWELL_ART:
         p.set(i, recolor.timmy(p.get(i)[0]))
+    p.set(MAXWELL_HEAD_ICON, timmy_build.head_icon())
+    p.set(recolor.MENU_ICON, recolor.timmy_menu_icon(p.get(recolor.MENU_ICON)[0]))
     p.set(fairies.COSMO_SHEET, fairies.cosmo(p.get(fairies.COSMO_SHEET)[0]))
     p.set(fairies.WANDA_SHEET, fairies.wanda(p.get(fairies.WANDA_SHEET)[0]))
     n = fop_assets.apply(p)

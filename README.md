@@ -15,6 +15,7 @@ Fairly OddParents game: you play as Timmy Turner and wish for anything by writin
 | UI | Orange buttons → pink, yellow panels → lavender, lime accents → FOP green, across menus and the HUD. |
 | Words | ~85 new dictionary words: COSMO, WANDA, POOF, VICKY, CROCKER, JORGEN, CHESTER, AJ, TOOTIE, FRANCIS, MARK CHANG, CRIMSON CHIN, DA RULES, MAGIC MUFFIN, FAIRY WAND, WISH-O-METER, PEARLY GATE, SUPER TOILET… (see `tools/fop_words.py`). |
 | Characters | Vicky, Jorgen Von Strangle, Mark Chang, Vicky's chainsaw recoloured to match the show. |
+| Story missions | All 237 level objectives rewritten as Fairly OddParents episodes (Vicky's traps, Crocker's pop quizzes, Jorgen's boot camp, Anti-Fairy attacks, Fairy World, Crimson Chin…), each still asking for the same solution so the in-level hints stay correct. The tutorial now introduces Timmy's godparents. See `tools/fop_story.py`. |
 | Text | Maxwell → Timmy, Starites → Wishes ("WISH GRANTED!"), Ollars → Fairy Bucks, Scribblenauts → Fairly OddParents. |
 
 ## Playing it
@@ -46,6 +47,7 @@ See [`docs/FORMATS.md`](docs/FORMATS.md) for the reverse-engineered file formats
 |--------|---------|
 | `fop_words.py` / `dictparse.py` | New dictionary words as synonyms of existing objects |
 | `fop_text.py` / `script_text.py` | Text rewrite rules for level scripts and string tables |
+| `fop_story.py` | Story-mission objectives and tutorial lines |
 | `timmy_art.py` / `timmy_build.py` | Timmy's hand-drawn puppet parts |
 | `fairies.py` | Cosmo and Wanda |
 | `fop_assets.py` / `recolor.py` | Palette recolours of other characters and items |
@@ -55,6 +57,12 @@ See [`docs/FORMATS.md`](docs/FORMATS.md) for the reverse-engineered file formats
 
 `tools/research/` holds the emulator harness (py-desmume) and format-exploration scripts used to
 find all of this; they are not needed to build.
+
+## Known gaps
+
+- The avatar line-up on the profile screen and some avatar art still show the original cast.
+- Level backgrounds (bedroom, classroom, suburbs, Fairy World) are the original scenery.
+- Most new words spawn the original-looking object; only the characters listed above are redrawn.
 
 ## Credits
 
