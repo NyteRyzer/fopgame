@@ -3,6 +3,8 @@
 A fan ROM hack of **Super Scribblenauts (USA)** for the Nintendo DS that turns it into a
 Fairly OddParents game: you play as Timmy Turner and wish for anything by writing it down.
 
+**[Website](https://nyteryzer.github.io/fopgame/)** · **[Download the latest release](https://github.com/NyteRyzer/fopgame/releases/latest)**
+
 ![Title](docs/screenshots/title.png) ![Menu](docs/screenshots/menu.png) ![Tutorial](docs/screenshots/tutorial.png)
 ![Wish map](docs/screenshots/map.png) ![Level start](docs/screenshots/levelstart.png) ![Mission](docs/screenshots/mission.png)
 
@@ -25,7 +27,8 @@ Fairly OddParents game: you play as Timmy Turner and wish for anything by writin
 
 You need your own dump of **Super Scribblenauts (USA)** (`BH2E`, CRC32 `69F707EA`).
 
-**Option A: apply the patch**: open `patches/fop-magic-words.bps` with any BPS patcher
+**Option A: apply the patch**: download `fop-magic-words.bps` from the
+[latest release](https://github.com/NyteRyzer/fopgame/releases/latest) (also in `patches/`), open it with any BPS patcher
 (Floating IPS, or the web-based *ROM Patcher JS*) and select your ROM.
 
 **Option B: build it yourself**
@@ -36,6 +39,12 @@ python3 tools/build.py "Super Scribblenauts (USA).nds" "Fairly OddParents - Magi
 ```
 
 No game data is stored in this repository; the build reads everything from your ROM.
+
+## Making a release
+
+Push a version tag (`git tag v1.0 && git push origin v1.0`) and the *Release* workflow publishes
+a GitHub release with the patch and `docs/RELEASE_NOTES.md`. The website is `docs/index.html`
+(Settings → Pages → Deploy from branch `main`, folder `/docs`).
 
 ## How it works
 
