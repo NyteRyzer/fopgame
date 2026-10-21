@@ -42,7 +42,7 @@ No game data is stored in this repository; the build reads everything from your 
 
 ## Making a release
 
-Push a version tag (`git tag v1.0 && git push origin v1.0`) and the *Release* workflow publishes
+Run the *Release* workflow from the Actions tab (enter a tag such as `v1.1`), or push a version tag; it publishes
 a GitHub release with the patch and `docs/RELEASE_NOTES.md`. The website is `docs/index.html`
 (Settings → Pages → Deploy from branch `main`, folder `/docs`).
 
