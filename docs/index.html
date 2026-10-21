@@ -33,6 +33,10 @@
          text-decoration: none; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); transition: transform .1s; }
   .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
   .btn.primary { background: var(--pink); color: #fff; }
+  button.btn { font-family: inherit; cursor: pointer; }
+  #status { font-weight: 700; min-height: 1.5em; margin: 14px 0 0; color: var(--muted); }
+  #status[data-kind="ok"] { color: #2f8a1c; }
+  #status[data-kind="error"] { color: #c0202a; }
   .btn.secondary { background: var(--lavender); color: var(--ink); }
   section { background: var(--card); border: 3px solid var(--ink); border-radius: 20px;
             box-shadow: 6px 6px 0 var(--ink); padding: 28px; margin: 28px 0; }
@@ -57,10 +61,22 @@
     <h1>The Fairly<span class="odd">OddParents</span><small>Magic Words!</small></h1>
     <p class="tag">A fan ROM hack of <i>Super Scribblenauts</i> for the Nintendo DS. Play as Timmy Turner, write down any word and Cosmo and Wanda make the wish come true.</p>
     <div class="btns">
-      <a class="btn primary" href="https://github.com/NyteRyzer/fopgame/releases/latest">Download the patch</a>
+      <a class="btn primary" href="#get-the-rom">Download the ROM</a>
       <a class="btn secondary" href="https://github.com/NyteRyzer/fopgame">View the source</a>
     </div>
   </header>
+
+  <section id="get-the-rom">
+    <h2>Download the ROM</h2>
+    <p>Pick your Super Scribblenauts (USA) ROM (<code>.nds</code> or the <code>.zip</code> it came in) and the
+      Fairly OddParents version downloads straight away, ready to play. Your file stays on your device:
+      it is patched right here in the browser and never uploaded.</p>
+    <div class="btns" style="justify-content:flex-start">
+      <button class="btn primary" id="get-rom" type="button">Choose ROM &amp; download</button>
+    </div>
+    <input type="file" id="rom" accept=".nds,.zip" hidden>
+    <p id="status" role="status" aria-live="polite"></p>
+  </section>
 
   <section>
     <h2>Screenshots</h2>
@@ -86,15 +102,14 @@
   <section>
     <h2>How to play</h2>
     <ol>
-      <li>Download <code>fop-magic-words.bps</code> from the <a href="https://github.com/NyteRyzer/fopgame/releases/latest">latest release</a>.</li>
-      <li>Open <a href="https://www.marcrobledo.com/RomPatcher.js/">ROM Patcher JS</a> in your browser (or use Floating IPS).</li>
-      <li>Choose your own dump of <b>Super Scribblenauts (USA)</b> (<code>BH2E</code>, CRC32 <code>69F707EA</code>) and the patch, then save.</li>
-      <li>Play the patched <code>.nds</code> in melonDS, DeSmuME, DraStic or on a flashcart.</li>
+      <li>Use <a href="#get-the-rom">Download the ROM</a> above with your own copy of <b>Super Scribblenauts (USA)</b> (<code>BH2E</code>, CRC32 <code>69F707EA</code>).</li>
+      <li>Play <code>Fairly OddParents - Magic Words.nds</code> in melonDS, DeSmuME, DraStic or on a flashcart.</li>
     </ol>
-    <p>The ROM is not distributed here: you need your own copy of the game.</p>
+    <p>Prefer a patcher? Grab <code>fop-magic-words.bps</code> from the <a href="https://github.com/NyteRyzer/fopgame/releases/latest">latest release</a> and use <a href="https://www.marcrobledo.com/RomPatcher.js/">ROM Patcher JS</a> or Floating IPS.</p>
   </section>
 
   <footer>Fan project, not affiliated with Nickelodeon, Warner Bros. or 5th Cell. The Fairly OddParents is &copy; Nickelodeon; Super Scribblenauts is &copy; Warner Bros. Entertainment / 5th Cell.</footer>
 </div>
+<script src="patcher.js"></script>
 </body>
 </html>

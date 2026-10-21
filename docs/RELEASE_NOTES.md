@@ -4,6 +4,10 @@ A fan ROM hack of **Super Scribblenauts (USA)**: play as Timmy Turner and wish f
 
 ### How to play
 
+**Easiest:** on the [website](https://nyteryzer.github.io/fopgame/#get-the-rom), pick your ROM and the playable `.nds` downloads right away.
+
+Or patch it yourself:
+
 1. Download **`fop-magic-words.bps`** below.
 2. Open [ROM Patcher JS](https://www.marcrobledo.com/RomPatcher.js/) (or Floating IPS).
 3. Select your own dump of **Super Scribblenauts (USA)** (`BH2E`, CRC32 `69F707EA`) and the patch.

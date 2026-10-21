@@ -3,7 +3,7 @@
 A fan ROM hack of **Super Scribblenauts (USA)** for the Nintendo DS that turns it into a
 Fairly OddParents game: you play as Timmy Turner and wish for anything by writing it down.
 
-**[Website](https://nyteryzer.github.io/fopgame/)** · **[Download the latest release](https://github.com/NyteRyzer/fopgame/releases/latest)**
+**[Website & ROM download](https://nyteryzer.github.io/fopgame/#get-the-rom)** · **[Download the latest release](https://github.com/NyteRyzer/fopgame/releases/latest)**
 
 ![Title](docs/screenshots/title.png) ![Menu](docs/screenshots/menu.png) ![Tutorial](docs/screenshots/tutorial.png)
 ![Wish map](docs/screenshots/map.png) ![Level start](docs/screenshots/levelstart.png) ![Mission](docs/screenshots/mission.png)
@@ -26,6 +26,10 @@ Fairly OddParents game: you play as Timmy Turner and wish for anything by writin
 ## Playing it
 
 You need your own dump of **Super Scribblenauts (USA)** (`BH2E`, CRC32 `69F707EA`).
+
+**Easiest: the website.** On the [download page](https://nyteryzer.github.io/fopgame/#get-the-rom),
+choose your ROM (`.nds` or `.zip`) and the patched *Fairly OddParents - Magic Words.nds* downloads
+right away. It is built in your browser; nothing is uploaded.
 
 **Option A: apply the patch**: download `fop-magic-words.bps` from the
 [latest release](https://github.com/NyteRyzer/fopgame/releases/latest) (also in `patches/`), open it with any BPS patcher
