@@ -1,0 +1,10 @@
+# Never commit game data: the ROM and anything extracted from it stay local.
+*.nds
+*.zip
+*.dsv
+*.dst
+rom/
+pak/
+fs/
+out/
+__pycache__/
