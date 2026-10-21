@@ -81,23 +81,44 @@ def message_lines(sec):
     return (None, items) if items else None
 
 
-def replace_message(sec, new_text, max_lines=5):
-    """Replace the body lines of a titled message, updating its line-count byte.
+def _pages(sec, lines):
+    """Split a message's lines into pages: runs of adjacent lines, each preceded by a count byte."""
+    pages, cur = [], [lines[0]]
+    for (a, sa), (b, sb) in zip(lines, lines[1:]):
+        if b - a == 2 + len(sa):
+            cur.append((b, sb))
+        else:
+            pages.append(cur); cur = [(b, sb)]
+    pages.append(cur)
+    return pages
 
-    Returns the new section, or None if the layout isn't the expected one."""
-    parsed = message_lines(sec)
-    if not parsed:
-        return None
-    _, lines = parsed
-    first, last = lines[0][0], lines[-1][0]
-    if sec[first - 1] != len(lines) or any(b - a != 2 + len(s) for (a, s), (b, _) in zip(lines, lines[1:])):
-        return None
-    new = wrap(new_text)
+
+def _encode_page(text, max_lines):
+    new = wrap(text)
     if len(new) > max_lines:
-        raise ValueError('too long (%d lines): %s' % (len(new), new_text))
+        raise ValueError('too long (%d lines): %s' % (len(new), text))
     body = bytearray([len(new)])
     for k, l in enumerate(new):
         s = b'ci' + l.encode('latin1') + b'ic'
         body += bytes([0x0c if k == len(new) - 1 else 0x0f, len(s)]) + s
-    end = last + 2 + len(lines[-1][1])
-    return sec[:first - 1] + bytes(body) + sec[end:]
+    return bytes(body)
+
+
+def replace_message(sec, new_text, max_lines=5):
+    """Replace the body lines of a message, updating each page's line-count byte.
+
+    new_text is a string, or a list of strings (one per page) for multi-page dialogs.
+    Returns the new section, or None if the layout isn't the expected one."""
+    parsed = message_lines(sec)
+    if not parsed:
+        return None
+    pages = _pages(sec, parsed[1])
+    texts = [new_text] if isinstance(new_text, str) else list(new_text)
+    if len(texts) != len(pages) or any(sec[pg[0][0] - 1] != len(pg) for pg in pages):
+        return None
+    out = sec
+    for pg, text in reversed(list(zip(pages, texts))):
+        first, (last, ls) = pg[0][0], pg[-1]
+        body = _encode_page(text, max(max_lines, len(pg)))
+        out = out[:first - 1] + body + out[last + 2 + len(ls):]
+    return out

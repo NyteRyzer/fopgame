@@ -4,6 +4,7 @@ A fan ROM hack of **Super Scribblenauts (USA)** for the Nintendo DS that turns i
 Fairly OddParents game: you play as Timmy Turner and wish for anything by writing it down.
 
 ![Title](docs/screenshots/title.png) ![Menu](docs/screenshots/menu.png) ![Tutorial](docs/screenshots/tutorial.png)
+![Wish map](docs/screenshots/map.png) ![Level start](docs/screenshots/levelstart.png) ![Mission](docs/screenshots/mission.png)
 
 ## What's changed
 
@@ -16,6 +17,8 @@ Fairly OddParents game: you play as Timmy Turner and wish for anything by writin
 | Words | ~85 new dictionary words: COSMO, WANDA, POOF, VICKY, CROCKER, JORGEN, CHESTER, AJ, TOOTIE, FRANCIS, MARK CHANG, CRIMSON CHIN, DA RULES, MAGIC MUFFIN, FAIRY WAND, WISH-O-METER, PEARLY GATE, SUPER TOILET… (see `tools/fop_words.py`). |
 | Characters | Vicky, Jorgen Von Strangle, Mark Chang, Vicky's chainsaw recoloured to match the show. |
 | Story missions | All 237 level objectives rewritten as Fairly OddParents episodes (Vicky's traps, Crocker's pop quizzes, Jorgen's boot camp, Anti-Fairy attacks, Fairy World, Crimson Chin…), each still asking for the same solution so the in-level hints stay correct. The tutorial now introduces Timmy's godparents. See `tools/fop_story.py`. |
+| Wish map | The constellation-map blueprint now shows Timmy, Cosmo and Wanda, with a new intro text. |
+| HUD | Pink OK / toolbar buttons and a pink-capped Timmy head next to the level number. |
 | Text | Maxwell → Timmy, Starites → Wishes ("WISH GRANTED!"), Ollars → Fairy Bucks, Scribblenauts → Fairly OddParents. |
 
 ## Playing it

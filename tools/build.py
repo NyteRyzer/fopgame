@@ -12,6 +12,7 @@ import timmy_build
 import fairies
 import fop_assets
 import titlegen
+import mapgen
 import fop_ui
 import poses
 import os
@@ -19,7 +20,7 @@ import tempfile
 
 MAXWELL_PART_SHEETS = (8914, 8915, 8916)   # the in-game puppet parts
 MAXWELL_ART = (8913, 32091, 32092, 32093)  # menu icon and control-scheme pictures
-MAXWELL_HEAD_ICON = 242                    # 32x32 head next to SINGLE PLAYER
+MAXWELL_HEAD_ICONS = (242, 11945)          # 32x32 Maxwell heads (menu, HUD)
 
 
 def string_table(d):
@@ -109,7 +110,8 @@ def patch_sprites(p):
         p.set(i, timmy)
     for i in MAXWELL_ART:
         p.set(i, recolor.timmy(p.get(i)[0]))
-    p.set(MAXWELL_HEAD_ICON, timmy_build.head_icon())
+    for i in MAXWELL_HEAD_ICONS:
+        p.set(i, timmy_build.head_icon())
     p.set(recolor.MENU_ICON, recolor.timmy_menu_icon(p.get(recolor.MENU_ICON)[0]))
     p.set(fairies.COSMO_SHEET, fairies.cosmo(p.get(fairies.COSMO_SHEET)[0]))
     p.set(fairies.WANDA_SHEET, fairies.wanda(p.get(fairies.WANDA_SHEET)[0]))
@@ -139,6 +141,9 @@ def patch_title(p):
     titlegen.chars_image(*(os.path.join(tmp, f) for f in ('t.png', 'c.png', 'w.png'))).save(os.path.join(tmp, 'ch.png'))
     n = titlegen.build(p, *(os.path.join(tmp, f) for f in ('g.png', 'l.png', 'ch.png')))
     print('title: %d new colours, %d logo/gingham tiles, %d character tiles' % n)
+    t = mapgen.build(p, poses.timmy(), poses.cosmo(p.get(fairies.COSMO_SHEET)[0]),
+                     poses.wanda(p.get(fairies.WANDA_SHEET)[0]))
+    print('map: blueprint redrawn (%d tiles)' % t)
 
 
 def main(src, dst):
